@@ -3,63 +3,63 @@ const _ = require('lodash');
 
 const cmsTemplateRule = (ctx) => {
     return {
-        
+
         name: {
             type: "string",
             required: true,
             message: ctx.__("validate_error_field", [ctx.__("名称")])
         },
 
-      
+
         alias: {
             type: "string",
             required: true,
             message: ctx.__("validate_error_field", [ctx.__("别名")])
         },
 
-      
+
         version: {
             type: "string",
             required: true,
             message: ctx.__("validate_error_field", [ctx.__("版本号")])
         },
 
-      
+
         sImg: {
             type: "string",
             required: true,
             message: ctx.__("validate_error_field", [ctx.__("缩略图")])
         },
 
-      
+
         state: {
             type: "string",
             required: true,
             message: ctx.__("validate_error_field", [ctx.__("状态")])
         },
 
-      
+
         author: {
             type: "string",
             required: true,
             message: ctx.__("validate_error_field", [ctx.__("作者")])
         },
 
-      
+
         filePath: {
             type: "string",
             required: true,
             message: ctx.__("validate_error_field", [ctx.__("路径")])
         },
 
-      
+
         comment: {
             type: "string",
             required: true,
             message: ctx.__("validate_error_field", [ctx.__("备注")])
         },
 
-      
+
     }
 }
 
@@ -98,59 +98,38 @@ let CmsTemplateController = {
 
             let fields = ctx.request.body || {};
             const formObj = {
-                
-     
-        name:fields.name, 
 
-  
-      
-     
-        alias:fields.alias, 
-
-  
-      
-     
-        version:fields.version, 
-
-  
-      
-     
-        sImg:fields.sImg, 
-
-  
-      
-     
-        state:fields.state, 
-
-  
-      
-     
-        // downloadNum:fields.downloadNum, 
-
-  
-      
-     
-        author:fields.author, 
-
-  
-      
-     
-        filePath:fields.filePath, 
-
-  
-      
-     
-        comment:fields.comment, 
-
-  
-      
+                name: fields.name,
+                alias: fields.alias,
+                version: fields.version,
+                sImg: fields.sImg,
+                state: fields.state,
+                amount: fields.amount,
+                buy_tips: fields.buy_tips,
+                discount_amount: fields.discount_amount,
+                author: fields.author,
+                filePath: fields.filePath,
+                comment: fields.comment,
                 createTime: new Date()
             }
 
+            if (fields.amount) {
+                let amount = parseFloat(fields.amount);
+                if (isNaN(amount) || amount <= 0) {
+                    throw new Error("金额输入错误.");
+                } else {
+                    fields.amount = amount.toFixed(2);
+                }
+            }
 
             ctx.validate(cmsTemplateRule(ctx), formObj);
 
-
+            if (fields.version.indexOf(',') >= 0) {
+                formObj.version = (fields.version).split(',');
+            }
+            if (fields.version.indexOf('，') >= 0) {
+                formObj.version = (fields.version).split('，');
+            }
 
             await ctx.service.cmsTemplate.create(formObj);
 
@@ -194,59 +173,37 @@ let CmsTemplateController = {
 
             let fields = ctx.request.body || {};
             const formObj = {
-                
-     
-        name:fields.name, 
-
-  
-      
-     
-        alias:fields.alias, 
-
-  
-      
-     
-        version:fields.version, 
-
-  
-      
-     
-        sImg:fields.sImg, 
-
-  
-      
-     
-        state:fields.state, 
-
-  
-      
-     
-        // downloadNum:fields.downloadNum, 
-
-  
-      
-     
-        author:fields.author, 
-
-  
-      
-     
-        filePath:fields.filePath, 
-
-  
-      
-     
-        comment:fields.comment, 
-
-  
-      
+                name: fields.name,
+                alias: fields.alias,
+                version: fields.version,
+                sImg: fields.sImg,
+                state: fields.state,
+                amount: fields.amount,
+                buy_tips: fields.buy_tips,
+                discount_amount: fields.discount_amount,
+                author: fields.author,
+                filePath: fields.filePath,
+                comment: fields.comment,
                 updateTime: new Date()
             }
 
+            if (fields.amount) {
+                let amount = parseFloat(fields.amount);
+                if (isNaN(amount) || amount <= 0) {
+                    throw new Error("金额输入错误.");
+                } else {
+                    fields.amount = amount.toFixed(2);
+                }
+            }
 
             ctx.validate(cmsTemplateRule(ctx), formObj);
 
-
+            if (fields.version.indexOf(',') >= 0) {
+                formObj.version = (fields.version).split(',');
+            }
+            if (fields.version.indexOf('，') >= 0) {
+                formObj.version = (fields.version).split('，');
+            }
 
             await ctx.service.cmsTemplate.update(ctx, fields._id, formObj);
 

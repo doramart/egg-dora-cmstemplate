@@ -54,6 +54,11 @@ exports.doraCmsTemplate = {
         method: 'get',
         controllerName: 'getOne',
         details: '获取单条系统模板信息',
+    }, {
+        url: 'cmsTemplate/cdnauth',
+        method: 'post',
+        controllerName: 'cdnauth',
+        details: '模板下载鉴权',
     }],
 
     initData: 'cmstemplates.json', // 初始化数据脚本
