@@ -18,8 +18,18 @@ module.exports = app => {
         },
         name: String, // 名称 
         alias: String, // 别名 
-        version: String, // 版本号 
+        version: [{
+            type: String,
+        }], // 适用版本
         sImg: String, // 缩略图 
+        amount: {
+            type: Number,
+            default: 0
+        }, // 价格
+        discount_amount: {
+            type: Number,
+            default: 0
+        }, // 折扣价
         state: {
             type: String,
             default: '0'
@@ -28,6 +38,7 @@ module.exports = app => {
             type: Number,
             default: 0
         }, // 下载次数 
+        buy_tips: String, // 购买提示
         author: String, // 作者 
         filePath: String, // 路径 
         comment: String, // 备注 
